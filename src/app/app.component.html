@@ -1,1 +1,3 @@
-<router-outlet></router-outlet>
+<main [@routerTransition]="getPageTransition(routerOutlet)">
+    <router-outlet #routerOutlet="outlet"></router-outlet>
+</main>

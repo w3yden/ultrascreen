@@ -3,11 +3,46 @@ import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
 import { APP_CONFIG } from '../environments/environment';
 import { PrimeNGConfig } from 'primeng/api';
+import {
+  sequence,
+  trigger,
+  stagger,
+  animate,
+  style,
+  group,
+  query as q,
+  transition,
+  keyframes,
+  animateChild,
+} from '@angular/animations'
+import { RouterOutlet } from '@angular/router';
+
+const query = (style, animate, optional = { optional: true }) =>
+  q(style, animate, optional)
+
+const fadeInFromDirection = direction => [
+  query(':enter, :leave', style({ position: 'fixed', width: '100%' })),
+  group([
+    query(':leave', [
+      animate('0.2s ease-out', style({ transform: 'translateX(100%)'})),
+    ]),
+    query(':enter', [
+      style({transform: "translateX(-90%)"}),
+      animate('0.2s ease-out', style({ transform: 'translateX(0%)'})),
+    ]),
+  ]),
+]
+
+let routerTransition = trigger('routerTransition', [
+  transition('* => forward', fadeInFromDirection('forward')),
+  transition('* => backward', fadeInFromDirection('backward')),
+])
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [routerTransition]
 })
 export class AppComponent {
   constructor(
@@ -30,5 +65,16 @@ export class AppComponent {
 
   ngOnInit() {
     this.primengConfig.ripple = true;
+  }
+
+  getPageTransition(routerOutlet: RouterOutlet) {
+    if (routerOutlet.isActivated) {
+      const { path } = routerOutlet.activatedRoute.routeConfig
+      console.log(path);
+      if(path === "connected") {
+          return "backward"
+      } 
+      return "forward"
+    }
   }
 }
