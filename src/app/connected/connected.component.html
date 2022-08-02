@@ -1,0 +1,30 @@
+<div class="connected-container h-full w-full">
+  
+<ng-template #sidepanelTemplate>
+  <div>
+    <app-logo></app-logo>
+    <div class="peer-info">
+      <div class="id-line">
+        <span>ID: -</span><div class="clipboard"></div>
+      </div>
+      <span> [{{nickname}}] </span>
+    </div>
+    <div class="conn-stream-container">
+      <Connections :connections="connections" :ultraPeer="ultraPeer" :mediaObjects="mediaObjects" :peerNicknames="peerNicknames"></Connections>
+      <div class="stream-section">
+          <h5>STREAM</h5>
+          <div class="screen"></div>
+          <!--<div v-bind:class="{ disabled: streams, turnedOn: useAudio && !streams }" class="audio" @click="toggleAudio"></div>!-->
+      </div>
+    </div>
+    <div class="footer">
+      <a routerLink="/home">{{ 'PAGES.CONNECTED.DISCONNECT' | translate }}</a>
+
+    </div>
+  </div>
+</ng-template>
+<app-sidepanel [panelTemplate]="sidepanelTemplate">
+
+</app-sidepanel>
+
+</div>
