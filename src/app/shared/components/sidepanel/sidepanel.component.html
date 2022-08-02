@@ -1,0 +1,30 @@
+<div class="panel" >
+    <!--
+    <transition name="expand"
+                v-on:enter="enter"
+                v-on:after-leave="leave"
+                v-on:after-enter="finishExpand"
+                v-on:before-leave="startCollapse"
+    >
+    -->
+    
+        <div class="left-panel" ref="leftPanel" [@expandedCollapsed]="expanded ? 'expanded' : 'collapsed'">
+            <div class="expand-button" (click)="toggleExpanded()">
+                <span *ngIf="expanded; else expandSymbol"><</span>
+                <ng-template #expandSymbol>></ng-template>
+            </div>
+           <!-- <transition name="fade">-->
+                <ng-container *ngTemplateOutlet="panelTemplate"></ng-container>
+            
+            <!--</transition>!-->
+        </div>
+        <!--y
+    </transition>
+    -->
+    <!--<div class="collapsed" v-if="showBorder">
+        <div class="expand-button" (click)="toggleExpanded()">
+            >
+        </div>
+    </div>
+    !-->
+</div>

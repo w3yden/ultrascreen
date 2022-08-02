@@ -1,0 +1,61 @@
+.left-panel {
+    height: 100vh;
+    width: 300px;
+    background-color: rgba(245, 245, 245, 1);
+    position: relative;
+    float: left;
+    border-right: 2px solid gray;
+}
+.panel {
+    position: fixed;
+    z-index: 9999;
+}
+
+.expand-button {
+    color: black;
+    background-color: rgba(245, 245, 245, 1);
+    border-radius: 50%;
+    display: inline;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    user-select: none;
+    font-weight: bolder;
+    font-size: 1.2em;
+    line-height: 23px;
+    top: calc( 50% - 25px) ;
+    float: right;
+    position: relative;
+    left: 10px;
+    padding-left: 2px;
+    z-index: 9999;
+    border-right: 2px solid gray;
+}
+
+.expand-button:hover {
+    color: gray;
+}
+
+.expand-enter-active {
+    animation: expand .5s;
+}
+
+.expand-leave-active {
+    animation: expand .5s reverse;
+}
+
+.collapsed {
+    height: 100vh;
+    width: 5px;
+    background-color: rgba(245, 245, 245, 1);
+    margin: 0;
+}
+
+@keyframes expand {
+    0% {
+        width: 5px;
+    }
+    100% {
+        width: 300px;
+    }
+}
