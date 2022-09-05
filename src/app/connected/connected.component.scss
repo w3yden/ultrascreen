@@ -2,3 +2,65 @@
     background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
     height: 100vh;
 }
+
+.sidepanel-container {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    padding-left: 25px;
+    padding-top: 5px;
+    height: 100%;
+}
+
+.peer-info {
+    font-size: 1em;
+    text-align: center;
+}
+
+
+.conn-stream-container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    height: 100%;
+    width: 250px;
+    text-align: left;
+}
+
+.screen {
+    width: 48px;
+    height: 48px;
+    background-image: url('/assets/icons/screen.svg');
+    background-size: 48px;
+    align-self: center;
+}
+
+.screen:hover {
+    filter: invert(52%) sepia(1%) saturate(0%) hue-rotate(225deg) brightness(96%) contrast(78%);
+}
+
+.stream-section {
+    text-transform: uppercase;
+    margin-top: 10px;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 64px;
+}
+
+footer {
+    width: 100%;
+    position: absolute;
+    padding: 0 10px 0 10px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.add-connection-button {
+    float: right;
+    font-size: 0.7em;
+}

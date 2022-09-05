@@ -1,18 +1,25 @@
 <div class="pre-connect-container w-full h-full flex flex-col justify-evenly items-center">
   
   <app-logo></app-logo>  
-  
   <div>
+
+
+
     <span class="p-float-label">
-      <input id="float-input" type="text" pInputText>
+
+      <input [ngClass]="{'ng-invalid': missingNickname, 'ng-dirty': missingNickname} " id="float-input" name="nickname" type="text" [(ngModel)]="nicknameField" pInputText required>
       <label for="float-input">Choose your nickname</label>
     </span>
   </div>
-
   <div>
-    <a routerLink="/connected">
-      <button pButton type="button" label="{{ 'PAGES.HOME.CONNECT' | translate }}"></button>
+    <a (click)="tryConnect()">
+      <button pButton type="button">
+        <span style="margin-left: 10px; margin-right: 10px">{{'PAGES.HOME.CONNECT' | translate }}</span>
+        <fa-icon [icon]="faSpinner"  size="1x" [spin]="true" *ngIf="loading"></fa-icon>
+      </button>
     </a>
   </div>
+
+
 
 </div>

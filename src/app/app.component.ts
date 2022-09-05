@@ -4,16 +4,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { APP_CONFIG } from '../environments/environment';
 import { PrimeNGConfig } from 'primeng/api';
 import {
-  sequence,
   trigger,
-  stagger,
   animate,
   style,
   group,
   query as q,
   transition,
-  keyframes,
-  animateChild,
 } from '@angular/animations'
 import { RouterOutlet } from '@angular/router';
 
@@ -70,7 +66,6 @@ export class AppComponent {
   getPageTransition(routerOutlet: RouterOutlet) {
     if (routerOutlet.isActivated) {
       const { path } = routerOutlet.activatedRoute.routeConfig
-      console.log(path);
       if(path === "connected") {
           return "backward"
       } 
