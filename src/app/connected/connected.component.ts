@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PeerConnection, PeerJsService } from '../core/services/peer-js.service';
+import { PeerJsService } from '../core/services/peer-js.service';
 import { ToastrService } from 'ngx-toastr';
+import { PeerConnection } from '../shared/peerjs/PeerConnection';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-connected',
@@ -27,6 +29,9 @@ export class ConnectedComponent implements OnInit {
         }, 200);
         return;
       }
+      connection?.onNewPeerConnectedEvent.subscribe((newConnection) => {
+        this.connectionList.push(newConnection);
+      });
       this.nickname = connection?.nickname;
       this.peerId = connection?.id;
     });
@@ -43,6 +48,8 @@ export class ConnectedComponent implements OnInit {
    }
 
    addPeer() {
+    this.peerJsService.connectionSubject.value.addPeer(this.newPeerId);
+    this.newPeerId = '';
    }
 
    openCredits() {
