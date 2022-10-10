@@ -21,14 +21,14 @@
           <li class="peer-connection" *ngFor="let connection of connectionList">
             <span class="peer-status-connected"></span>
             {{connection}}
-            <div class="peer-remove">X</div>
+            <div class="peer-remove" (click)="removePeer(connection)">X</div>
           </li>
         </ul>
         <!--<div v-bind:class="{ disabled: streams, turnedOn: useAudio && !streams }" class="audio" @click="toggleAudio"></div>!-->
     </div>
-      <div class="stream-section">
+      <div class="stream-section" (click)="openStreamScreenPicker()">
           <h5>STREAM</h5>
-          <div class="screen"></div>
+          <div class="screen" [ngClass]="{'screen-streaming': streaming}"></div>
           <!--<div v-bind:class="{ disabled: streams, turnedOn: useAudio && !streams }" class="audio" @click="toggleAudio"></div>!-->
       </div>
     </div>
@@ -44,5 +44,13 @@
 <app-sidepanel [panelTemplate]="sidepanelTemplate">
 
 </app-sidepanel>
+<div key="x" class="content" v-if="!focusPeerblock" *ngFor="let stream of mediaStreams">
+  <app-stream-peer-block
+             [title]="'title'"
+             [media]="stream"
+             >
+</app-stream-peer-block>
+</div>
+<app-stream-screen-picker (mediaStreamSelected)="onStreamSelected($event)" #streamScreenPicker></app-stream-screen-picker>
 
 </div>

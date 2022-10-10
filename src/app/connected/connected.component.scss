@@ -41,6 +41,10 @@
     contrast(78%);
 }
 
+.screen-streaming {
+  filter: invert(37%) sepia(70%) saturate(5777%) hue-rotate(6deg) brightness(107%) contrast(103%);
+}
+
 .stream-section {
   text-transform: uppercase;
   margin-top: 10px;

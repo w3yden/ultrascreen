@@ -10,19 +10,29 @@ export class PeerConnection {
     nickname: string;
     connected = new BehaviorSubject<boolean>(false);
     connections: Map<string, DataConnection>;
+    mediaObjects: Map<string, MediaStream>;
+    calls: Map<string, MediaConnection>;
     isStreaming: boolean;
     peerNicknameDictionary: {[key: string]: string};
     onNewPeerConnectedEvent: EventEmitter<string>;
+    onPeerDisconnectedEvent: EventEmitter<string>;
+    onMediaStreamsChanged: EventEmitter<Array<MediaStream>>;
+    onStoppedStreaming: EventEmitter<void>;
 
     constructor(nickname: string) {
       this.onNewPeerConnectedEvent = new EventEmitter();
+      this.onPeerDisconnectedEvent = new EventEmitter();
+      this.onMediaStreamsChanged = new EventEmitter();
+      this.onStoppedStreaming = new EventEmitter();
       this.nickname = nickname;
       this.isStreaming = false;
       this.connections = new Map();
+      this.mediaObjects = new Map();
+      this.calls = new Map();
       this.peer = new Peer();
       this.peer.on('open', this.onPeerServerConnected.bind(this));
-      this.peer.on('call', this.onPeerRemoteCallAttempt);
-      this.peer.on('error', this.onPeerError);
+      this.peer.on('call', this.onPeerRemoteCallAttempt.bind(this));
+      this.peer.on('error', this.onPeerError.bind(this));
       this.peer.on('connection', this.onPeerRemoteConnectionEstablished.bind(this));
     }
 
@@ -45,6 +55,53 @@ export class PeerConnection {
       console.log('Connecting...');
     }
 
+    removePeer(remoteId: string) {
+      const remoteConnection = this.connections.get(remoteId);
+      if(remoteConnection !== undefined) {
+        remoteConnection.send(new PeerMessageData(PeerMessageDataType.close));
+        for(const call of this.calls.values()) {
+          if(call.peer === remoteId) {
+            this.handleCallClose(call);
+          }
+        }
+
+        remoteConnection.close();
+      }
+    }
+
+    startStream(stream) {
+      this.mediaObjects.set(this.id, stream);
+      this.isStreaming = true;
+
+      for (const remoteId of this.connections.keys()) {
+        this.initateStreamCall(remoteId);
+      }
+      this.emitOnMediaStreamsChanged();
+    }
+
+    stopStream() {
+      this.mediaObjects.get(this.id).getTracks().forEach(function(track) {
+        track.stop();
+      });
+
+      for (const remoteId of this.connections.keys()) {
+        this.connections.get(remoteId).send(new PeerMessageData(PeerMessageDataType.stopMyStream));
+      }
+
+      this.mediaObjects.delete(this.id);
+
+      for (const i of this.calls.keys()) {
+        const call = this.calls.get(i);
+        if (call.localStream) {
+          call.close();
+        }
+      }
+
+      this.isStreaming = false;
+      this.onStoppedStreaming.emit();
+      this.emitOnMediaStreamsChanged();
+    }
+
     // Helper functions
 
     private isPeerIdInvalid(peerId: string) {
@@ -54,30 +111,54 @@ export class PeerConnection {
     }
 
     private sendNicknameToPeer(remotePeer: string) {
-      this.connections[remotePeer].send({nickname: this.nickname});
+      this.connections.get(remotePeer).send({nickname: this.nickname});
+    }
+
+    private initateStreamCall(remoteId: string) {
+      const stream = this.mediaObjects.get(this.id);
+      const call = this.peer.call(remoteId, stream);
+      call.on('error', this.onPeerError.bind(this));
+      this.calls.set(remoteId, call);
+      console.log('Calling remote ' + remoteId);
     }
 
     private registerPeerConnectionCallbacks(remoteConnection: DataConnection) {
       remoteConnection.on('open', () => {
         this.onNewPeerConnectedEvent.emit(remoteConnection.peer);
         console.log(remoteConnection.peer + ' connected!');
-        this.connections[remoteConnection.peer] = remoteConnection;
+        this.connections.set(remoteConnection.peer, remoteConnection);
         if (this.isStreaming) {
-          // this.initiateStreamCall(conn.peer, this.currentStream)
+           this.initateStreamCall(remoteConnection.peer);
         }
         this.sendNicknameToPeer(remoteConnection.peer);
       });
       remoteConnection.on('error', this.onPeerConnectionError.bind(this));
-      remoteConnection.on('data', this.onPeerConnectionData.bind(this));
+      remoteConnection.on('data', (data: PeerMessageData) => {
+        this.onPeerConnectionData(data, remoteConnection);
+      });
       remoteConnection.on('close', () => {
-        this.connections[remoteConnection.peer].close();
-        // delete this.mediaObjects[conn.peer]
-        delete this.connections[remoteConnection.peer];
-        // this.connectionCallback(this.connections)
-        // this.mediaCallback(this.mediaObjects, this.peerNicknameDictionary)
+        this.connections.get(remoteConnection.peer).close();
+        this.connections.delete(remoteConnection.peer);
+        this.onPeerDisconnectedEvent.emit(remoteConnection.peer);
+        this.handleCallClose(this.calls.get(remoteConnection.peer));
+        this.emitOnMediaStreamsChanged();
         console.log(this.connections);
         console.log('Disconnected');
       });
+    }
+
+    private handleCallClose(call: MediaConnection) {
+      if(call && call.open) {
+        call.close();
+        console.log('Closed call to: ' + call.peer);
+        this.mediaObjects.delete(call.peer);
+        this.emitOnMediaStreamsChanged();
+      }
+    }
+
+    private emitOnMediaStreamsChanged() {
+      console.log(this.mediaObjects);
+      this.onMediaStreamsChanged.emit(Array.from(this.mediaObjects.values()));
     }
 
     // Peer Callbacks
@@ -98,8 +179,23 @@ export class PeerConnection {
       this.registerPeerConnectionCallbacks(remoteConnection);
     }
 
-    private onPeerRemoteCallAttempt(mediaConnection: MediaConnection) {
+    private onPeerRemoteCallStream(stream: MediaStream, call: MediaConnection) {
+      this.mediaObjects.set(call.peer, stream);
+      stream.addEventListener('removetrack', () => {});
+      this.emitOnMediaStreamsChanged();
+    }
 
+    private onPeerRemoteCallAttempt(call: MediaConnection) {
+      console.log('Receiving a call from: ' + call.peer);
+      call.answer();
+      this.calls.set(call.peer, call);
+      call.on('error', this.onPeerError.bind(this));
+      call.on('stream', (stream: MediaStream) => {
+        this.onPeerRemoteCallStream(stream, call);
+      });
+      call.on('close', () => {
+        this.handleCallClose(call);
+      });
     }
 
     // Peer Connection Callbacks
@@ -108,7 +204,7 @@ export class PeerConnection {
       console.error(error);
     }
 
-    private onPeerConnectionData(data: PeerMessageData) {
+    private onPeerConnectionData(data: PeerMessageData, conn: DataConnection) {
         console.log('Got data: ');
         console.log(data);
         switch(data.type) {
@@ -126,18 +222,15 @@ export class PeerConnection {
             conn.close()*/
             break;
           case PeerMessageDataType.stopMyStream:
-            /*for (let i in this.calls) {
-              let call = this.calls[i]
+            for (const i of this.calls.keys()) {
+              const call = this.calls.get(i);
               if (call.peer === conn.peer && call.remoteStream) {
-                call.close()
-                console.log('Closed call to: ' + call.peer)
-                delete this.mediaObjects[call.peer]
-                this.mediaCallback(this.mediaObjects, this.peerNicknameDictionary)
+                this.handleCallClose(call);
               }
-            }*/
+            }
             break;
           case PeerMessageDataType.nickname:
-            this.peerNicknameDictionary[data.senderId] = data.content;
+            this.peerNicknameDictionary[conn.peer] = data.content;
             //this.connectionCallback(this.connections, this.peerNicknameDictionary)
             console.log(this.peerNicknameDictionary);
             break;

@@ -8,9 +8,10 @@ import { SharedModule } from '../shared/shared.module';
 
 import { SidebarModule } from 'primeng/sidebar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StreamScreenPickerComponent } from '../stream-screen-picker/stream-screen-picker.component';
 
 @NgModule({
-  declarations: [ConnectedComponent],
-  imports: [CommonModule, SharedModule, DetailRoutingModule, SidebarModule, BrowserAnimationsModule]
+  declarations: [ConnectedComponent, StreamScreenPickerComponent],
+  imports: [CommonModule, SharedModule, DetailRoutingModule, SidebarModule, BrowserAnimationsModule],
 })
 export class ConnectedModule {}
