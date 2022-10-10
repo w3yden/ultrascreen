@@ -1,66 +1,158 @@
 .connected-container {
-    background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
-    height: 100vh;
+  background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
+  height: 100vh;
 }
 
 .sidepanel-container {
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
-    padding-left: 25px;
-    padding-top: 5px;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  padding-left: 25px;
+  padding-top: 5px;
+  height: 100%;
 }
 
 .peer-info {
-    font-size: 1em;
-    text-align: center;
+  font-size: 1em;
+  text-align: center;
 }
 
-
 .conn-stream-container {
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: column;
-    height: 100%;
-    width: 250px;
-    text-align: left;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  height: 100%;
+  width: 250px;
+  text-align: left;
 }
 
 .screen {
-    width: 48px;
-    height: 48px;
-    background-image: url('/assets/icons/screen.svg');
-    background-size: 48px;
-    align-self: center;
+  width: 48px;
+  height: 48px;
+  background-image: url("/assets/icons/screen.svg");
+  background-size: 48px;
+  align-self: center;
 }
 
-.screen:hover {
-    filter: invert(52%) sepia(1%) saturate(0%) hue-rotate(225deg) brightness(96%) contrast(78%);
+.screen:hover,
+.clipboard:hover {
+  filter: invert(52%) sepia(1%) saturate(0%) hue-rotate(225deg) brightness(96%)
+    contrast(78%);
 }
 
 .stream-section {
-    text-transform: uppercase;
-    margin-top: 10px;
-    text-align: center;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    min-height: 64px;
+  text-transform: uppercase;
+  margin-top: 10px;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 64px;
 }
 
 footer {
-    width: 100%;
-    position: absolute;
-    padding: 0 10px 0 10px;
-    bottom: 20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+  width: 100%;
+  position: absolute;
+  padding: 0 10px 0 10px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
-.add-connection-button {
-    float: right;
-    font-size: 0.7em;
+.add-peer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 30px;
+  margin-bottom: 20px;
+}
+
+.add-peer-button {
+  min-width: 25px;
+  margin-left: 5px;
+  border-radius: 4px;
+  background: #007bff;
+  border-color: #007bff;
+  color: #ffffff;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.add-peer-button:hover {
+  background: #0069d9;
+  color: #ffffff;
+  border-color: #0069d9;
+}
+
+.add-peer-textfield {
+  width: 100%;
+}
+
+.disconnect-button {
+  color: darkred;
+  text-decoration: underline;
+}
+
+.disconnect-button:hover {
+  color: red;
+  text-decoration: underline;
+}
+
+.clipboard {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url("/assets/icons/clipboard.svg");
+  background-size: 16px;
+  align-self: center;
+}
+
+.peer-connection {
+    padding-left: 10px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    margin-bottom: 3px;
+    font-size: 0.9em;
+
+  height: 25px;
+line-height: 20px;
+text-align: left;
+
+background-color: honeydew;
+border: 2px solid cadetblue;
+border-radius: 16px;
+}
+
+.peer-status-connected {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  align-self: center;
+  margin-right: 5px;
+  background-color: mediumseagreen;
+  border: 1px solid green;
+}
+
+.peer-status-id {
+  display: block;
+}
+
+.peer-remove {
+    justify-self: flex-end;
+    justify-content: flex-end;
+    right: 35px;
+    position: absolute;
+    display: inline-block;
+    color: red;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    user-select: none;
+}
+
+.peer-remove:hover {
+    color: darkred;
 }

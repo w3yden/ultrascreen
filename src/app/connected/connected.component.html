@@ -1,26 +1,31 @@
 <div class="connected-container h-full w-full">
-  
+
 <ng-template #sidepanelTemplate>
   <div class="p-2 sidepanel-container">
     <app-logo></app-logo>
     <div class="peer-info">
       <div class="id-line">
-        
-        <span>ID: {{peerId}}</span><div class="clipboard"></div>
+
+        <span>ID: {{peerId}}</span><span (click)="copyMyId()" class="clipboard"></span>
       </div>
       <span> [{{nickname}}] </span>
     </div>
     <div class="conn-stream-container">
       <div class="connections-section">
-        <h5>CONNECTIONS</h5>
-        <div class="add-connection">
-          <input type="text" pInput/>
-          <button pButton class="add-connection-button">+</button>
-          
+        <h5 class="text-center">CONNECTIONS</h5>
+        <div class="add-peer">
+          <input type="text" placeholder="Remote ID" class="add-peer-textfield" [(ngModel)]="newPeerId" pInputText/>
+          <button (click)="addPeer()" class="add-peer-button p-button-sm">+</button>
         </div>
+        <ul class="peer-collection-container">
+          <li class="peer-connection" *ngFor="let connection of connectionList">
+            <span class="peer-status-connected"></span>
+            {{connection}}
+            <div class="peer-remove">X</div>
+          </li>
+        </ul>
         <!--<div v-bind:class="{ disabled: streams, turnedOn: useAudio && !streams }" class="audio" @click="toggleAudio"></div>!-->
     </div>
-      <Connections :connections="connections" :ultraPeer="ultraPeer" :mediaObjects="mediaObjects" :peerNicknames="peerNicknames"></Connections>
       <div class="stream-section">
           <h5>STREAM</h5>
           <div class="screen"></div>
@@ -28,12 +33,11 @@
       </div>
     </div>
     <div class="footer">
-      <a (click)="disconnect()" routerLink="/home">
-
-        <button pButton type="button">{{ 'PAGES.CONNECTED.DISCONNECT' | translate }}</button>
+      <a class="disconnect-button" (click)="disconnect()" routerLink="/home">
+        {{ 'PAGES.CONNECTED.DISCONNECT' | translate }}
       </a>
       <a (click)="openCredits()" >{{ 'PAGES.CONNECTED.CREDITS' | translate }}</a>
-      
+
     </div>
   </div>
 </ng-template>
