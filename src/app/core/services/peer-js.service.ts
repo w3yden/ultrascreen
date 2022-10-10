@@ -8,16 +8,25 @@ import { PeerConnection } from '../../shared/peerjs/PeerConnection';
 export class PeerJsService {
   public connectionSubject = new BehaviorSubject<PeerConnection>(null);
   readonly connection = this.connectionSubject.asObservable();
+  peerConnection: PeerConnection = undefined;
 
   constructor() {
   }
 
   connect(nickname: string, connectedCallback: () => void) {
-    const peerConnection = new PeerConnection(nickname);
-    peerConnection.connected.subscribe((isConnected) => {
+    if(this.peerConnection !== undefined) {
+      this.peerConnection.connected.unsubscribe();
+    }
+    console.log('Create PeerConnection Instance');
+
+    this.peerConnection = new PeerConnection(nickname);
+    this.peerConnection.connected.subscribe((isConnected) => {
+      console.log(isConnected);
+      console.log(this.peerConnection);
       if(isConnected) {
-        this.connectionSubject.next(peerConnection);
+        console.log('Notify new peerConnection instance');
         connectedCallback();
+        this.connectionSubject.next(this.peerConnection);
       }
     });
   }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
 import { APP_CONFIG } from '../environments/environment';
@@ -10,11 +10,11 @@ import {
   group,
   query as q,
   transition,
-} from '@angular/animations'
+} from '@angular/animations';
 import { RouterOutlet } from '@angular/router';
 
-const query = (style, animate, optional = { optional: true }) =>
-  q(style, animate, optional)
+const query = (pStyle, pAnimate, pOptional = { optional: true }) =>
+  q(pStyle, pAnimate, pOptional);
 
 const fadeInFromDirection = direction => [
   query(':enter, :leave', style({ position: 'fixed', width: '100%' })),
@@ -23,16 +23,16 @@ const fadeInFromDirection = direction => [
       animate('0.2s ease-out', style({ transform: 'translateX(100%)'})),
     ]),
     query(':enter', [
-      style({transform: "translateX(-90%)"}),
+      style({transform: 'translateX(-90%)'}),
       animate('0.2s ease-out', style({ transform: 'translateX(0%)'})),
     ]),
   ]),
-]
+];
 
-let routerTransition = trigger('routerTransition', [
+const routerTransition = trigger('routerTransition', [
   transition('* => forward', fadeInFromDirection('forward')),
   transition('* => backward', fadeInFromDirection('backward')),
-])
+]);
 
 @Component({
   selector: 'app-root',
@@ -40,7 +40,7 @@ let routerTransition = trigger('routerTransition', [
   styleUrls: ['./app.component.scss'],
   animations: [routerTransition]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(
     private electronService: ElectronService,
     private translate: TranslateService,
@@ -65,11 +65,11 @@ export class AppComponent {
 
   getPageTransition(routerOutlet: RouterOutlet) {
     if (routerOutlet.isActivated) {
-      const { path } = routerOutlet.activatedRoute.routeConfig
-      if(path === "connected") {
-          return "backward"
-      } 
-      return "forward"
+      const { path } = routerOutlet.activatedRoute.routeConfig;
+      if(path === 'connected') {
+          return 'backward';
+      }
+      return 'forward';
     }
   }
 }

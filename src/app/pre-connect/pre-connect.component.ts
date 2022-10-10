@@ -9,40 +9,37 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./pre-connect.component.scss']
 })
 export class PreConnectComponent implements OnInit {
+  nicknameField = '';
+  missingNickname = false;
+  faSpinner = faSpinner;
+  loading = false;
 
-  constructor(private router: Router, private peerJsService : PeerJsService) {  }
+  constructor(private router: Router, private peerJsService: PeerJsService) {  }
 
   ngOnInit(): void {
     console.log('HomeComponent INIT');
     // DEV
-    this.peerJsService.connect("devlogin", () => {
-      console.log("Connected?")
-      this.loading = false
-      this.router.navigate(['connected'])
-    })
+    this.peerJsService.connect('devlogin', () => {
+      console.log('Connected?');
+      this.loading = false;
+      this.router.navigate(['connected']);
+    });
 
   }
 
   tryConnect() {
     // Check nickname not empty
-    if(this.nicknameField === "") {
-      this.missingNickname = true
-      return
+    if(this.nicknameField === '') {
+      this.missingNickname = true;
+      return;
     }
-    this.missingNickname = false
+    this.missingNickname = false;
 
-    this.loading = true
+    this.loading = true;
     this.peerJsService.connect(this.nicknameField, () => {
-      console.log("Connected?")
-      this.loading = false
-      this.router.navigate(['connected'])
-    })
+      console.log('Connected?');
+      this.loading = false;
+      this.router.navigate(['connected']);
+    });
   }
-
-  nicknameField = ""
-  missingNickname = false
-
-  faSpinner = faSpinner
-  loading = false
-
 }
