@@ -1,0 +1,45 @@
+.sources {
+    display: block;
+    position: relative;
+    width: 200px;
+    height: 100px;
+    text-overflow: ellipsis;
+    text-align: center;
+    font-size: 0.7em;
+    margin: 10px 10px 70px;
+    padding: 10px;
+}
+
+.p-dialog, .modal-body, .p-element, p-dialog{
+    width: 50% !important;
+    max-width: 50%; 
+}
+
+.sourceWrap {
+    z-index: 999;
+    width: 200px;
+    height: 100px;
+}
+
+.sourceWrap:hover {
+    background-color: #039BE5;
+}
+
+img:hover {
+    background-color: #039BE5;
+}
+
+img {
+    height: 100%;
+}
+
+.sourcesContainer {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.title {
+  margin-bottom: 50px;
+}

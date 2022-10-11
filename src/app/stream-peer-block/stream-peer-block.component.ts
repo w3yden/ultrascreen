@@ -8,6 +8,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '
 export class StreamPeerBlockComponent implements OnInit, AfterViewInit {
   @Input() media: MediaStream;
   @Input() title: string;
+  @Input() focused: boolean;
   @ViewChild('streamVideo') videoElement: ElementRef;
 
   constructor() { }

@@ -10,17 +10,36 @@ import { SidepanelComponent } from './components/sidepanel/sidepanel.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import {DialogModule} from 'primeng/dialog';
+import { DialogModule } from 'primeng/dialog';
 import { StreamPeerBlockModule } from '../stream-peer-block/stream-peer-block.module';
-
+import { TooltipModule } from 'primeng/tooltip';
+import { PeerConnectionDialogComponent } from '../peer-connection-dialog/peer-connection-dialog.component';
+import { SettingsDialogComponent } from '../settings-dialog/settings-dialog.component';
 
 @NgModule({
-  declarations: [PageNotFoundComponent, LogoComponent, WebviewDirective, SidepanelComponent],
-  imports: [CommonModule, TranslateModule, FontAwesomeModule, FormsModule],
+  declarations: [
+    PageNotFoundComponent,
+    LogoComponent,
+    WebviewDirective,
+    SidepanelComponent,
+    PeerConnectionDialogComponent,
+    SettingsDialogComponent
+  ],
+  imports: [CommonModule, DialogModule, TranslateModule, FontAwesomeModule, FormsModule],
   exports: [
-    StreamPeerBlockModule, DialogModule,
-    TranslateModule, WebviewDirective, FormsModule,
-    LogoComponent, SidepanelComponent, FontAwesomeModule,
-    InputTextModule, ButtonModule]
+    TooltipModule,
+    StreamPeerBlockModule,
+    DialogModule,
+    TranslateModule,
+    WebviewDirective,
+    FormsModule,
+    LogoComponent,
+    SidepanelComponent,
+    FontAwesomeModule,
+    InputTextModule,
+    ButtonModule,
+    PeerConnectionDialogComponent,
+    SettingsDialogComponent
+  ],
 })
 export class SharedModule {}

@@ -1,0 +1,14 @@
+<p-dialog header="A peer connected" [(visible)]="display" *ngIf="newConnection !== undefined">
+    <div class="modal-body w-full">
+        <div class="grid grid-columns-2">
+            <div>{{newConnection.id}}</div>
+        </div>
+        <div class="grid grid-columns-2">
+            <div>{{newConnection.nickname}}</div>
+        </div>
+        <div class="float-right">
+        <button (click)="accepted.emit(newConnection); display = false" pButton type="button" label="Accept" class="p-button-success"></button>
+        <button (click)="rejected.emit(newConnection); display = false" pButton type="button" label="Reject" class="p-button-danger"></button>
+        </div>
+    </div>
+</p-dialog>

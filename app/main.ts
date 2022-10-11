@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, ipcMain, desktopCapturer } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as url from 'url';
@@ -53,6 +53,27 @@ function createWindow(): BrowserWindow {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     win = null;
+  });
+
+  ipcMain.handle('get-desktop-sources', async () => {
+    return await desktopCapturer.getSources({ types: ['window', 'screen'] }).then((sources) => {return sources;});
+  });
+
+  ipcMain.handle('get-stream', async (sourceId) => {
+    const stream = await (navigator.mediaDevices as any).getUserMedia({
+      audio: false,
+      video: {
+        mandatory: {
+          chromeMediaSource: 'desktop',
+          chromeMediaSourceId: sourceId,
+          minWidth: 1280,
+          maxWidth: 1280,
+          minHeight: 720,
+          maxHeight: 720
+        }
+      }
+    })
+    return stream;
   });
 
   return win;

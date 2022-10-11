@@ -20,7 +20,6 @@ export class PreConnectComponent implements OnInit {
     console.log('HomeComponent INIT');
     // DEV
     this.peerJsService.connect('devlogin', () => {
-      console.log('Connected?');
       this.loading = false;
       this.router.navigate(['connected']);
     });

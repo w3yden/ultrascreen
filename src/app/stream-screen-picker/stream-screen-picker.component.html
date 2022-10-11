@@ -1,3 +1,10 @@
-<p-dialog header="Select a window/screen" [(visible)]="display">
-    Content
+<p-dialog class="modal-body" [style]="{width: '50vw', 'min-width': '200px'}" contentStyleClass="modal-body" header="Select a window/screen" [(visible)]="display">
+    <div class="sourcesContainer">
+        <div class="sources" *ngFor="let source of sources">
+            <div class="sourceWrap" (click)="selectWindow(source)">
+                <img [src]="source.thumbnail.toDataURL()" /><br>
+                {{ source.name }}
+            </div>
+        </div>
+    </div>
 </p-dialog>

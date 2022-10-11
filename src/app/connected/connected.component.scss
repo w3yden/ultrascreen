@@ -1,9 +1,10 @@
 .connected-container {
-  background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
   height: 100vh;
+  width: 100vw;
 }
 
 .sidepanel-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-items: center;
@@ -16,6 +17,29 @@
 .peer-info {
   font-size: 1em;
   text-align: center;
+}
+
+.peer-status-line {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.pi {
+  margin-left: 8px;
+  margin-top: 2px;
+}
+
+.peer-stream-container {
+  height: 100vh;
+  background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
+  margin-left: 5px;
+  background-color: #bdd4e7;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-around;
+  align-items: center;
 }
 
 .conn-stream-container {
@@ -45,6 +69,12 @@
   filter: invert(37%) sepia(70%) saturate(5777%) hue-rotate(6deg) brightness(107%) contrast(103%);
 }
 
+.id-line {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .stream-section {
   text-transform: uppercase;
   margin-top: 10px;
@@ -55,14 +85,14 @@
   min-height: 64px;
 }
 
-footer {
+.footer {
   width: 100%;
   position: absolute;
   padding: 0 10px 0 10px;
   bottom: 20px;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .add-peer {
@@ -96,6 +126,7 @@ footer {
 .disconnect-button {
   color: darkred;
   text-decoration: underline;
+  float: left;
 }
 
 .disconnect-button:hover {
@@ -109,7 +140,6 @@ footer {
   height: 16px;
   background-image: url("/assets/icons/clipboard.svg");
   background-size: 16px;
-  align-self: center;
 }
 
 .peer-connection {
@@ -119,14 +149,15 @@ footer {
     flex-direction: row;
     margin-bottom: 3px;
     font-size: 0.9em;
+    line-height: 36px;
 
-  height: 25px;
+  height: 36px;
 line-height: 20px;
 text-align: left;
 
-background-color: honeydew;
-border: 2px solid cadetblue;
-border-radius: 16px;
+background-color: white;
+border: 2px solid lightgray;
+border-radius: 8px;
 }
 
 .peer-status-connected {
@@ -140,6 +171,11 @@ border-radius: 16px;
   border: 1px solid green;
 }
 
+.peer-status-streaming {
+  background-color: violet;
+  border: 1px solid purple;
+}
+
 .peer-status-id {
   display: block;
 }
@@ -147,7 +183,7 @@ border-radius: 16px;
 .peer-remove {
     justify-self: flex-end;
     justify-content: flex-end;
-    right: 35px;
+    right: 15px;
     position: absolute;
     display: inline-block;
     color: red;
@@ -160,3 +196,4 @@ border-radius: 16px;
 .peer-remove:hover {
     color: darkred;
 }
+

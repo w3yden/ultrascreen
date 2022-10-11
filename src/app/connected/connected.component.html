@@ -5,10 +5,13 @@
     <app-logo></app-logo>
     <div class="peer-info">
       <div class="id-line">
-
-        <span>ID: {{peerId}}</span><span (click)="copyMyId()" class="clipboard"></span>
+        <div class="float-left id-line"><span (click)="copyMyId()" class="clipboard mt-1 float-left"></span> <span class="float-right">ID:</span></div>
+        <div class="float-right text-right">{{peerId}}</div>
       </div>
-      <span> [{{nickname}}] </span>
+      <div class="id-line">
+        <div class="float-left">Name:</div>
+        <div class="float-right">{{nickname}}</div>
+      </div>
     </div>
     <div class="conn-stream-container">
       <div class="connections-section">
@@ -19,24 +22,25 @@
         </div>
         <ul class="peer-collection-container">
           <li class="peer-connection" *ngFor="let connection of connectionList">
-            <span class="peer-status-connected"></span>
-            {{connection}}
-            <div class="peer-remove" (click)="removePeer(connection)">X</div>
+            <span class="peer-status-connected" [ngClass]="{'peer-status-streaming': connection.stream !== undefined}"></span>
+            <span class="peer-status-line">
+            {{connection.nickname}}
+            <i class="pi pi-info-circle" [pTooltip]="connection.id" tooltipZIndex="10000"></i>
+            <div class="peer-remove" (click)="removePeer(connection.id)">X</div>
+          </span>
           </li>
         </ul>
-        <!--<div v-bind:class="{ disabled: streams, turnedOn: useAudio && !streams }" class="audio" @click="toggleAudio"></div>!-->
     </div>
       <div class="stream-section" (click)="openStreamScreenPicker()">
           <h5>STREAM</h5>
           <div class="screen" [ngClass]="{'screen-streaming': streaming}"></div>
-          <!--<div v-bind:class="{ disabled: streams, turnedOn: useAudio && !streams }" class="audio" @click="toggleAudio"></div>!-->
       </div>
     </div>
     <div class="footer">
       <a class="disconnect-button" (click)="disconnect()" routerLink="/home">
-        {{ 'PAGES.CONNECTED.DISCONNECT' | translate }}
+        <i class="pi pi-times-circle" pTooltip="Disconnect"></i>
       </a>
-      <a (click)="openCredits()" >{{ 'PAGES.CONNECTED.CREDITS' | translate }}</a>
+      <a (click)="openCredits()" ><i class="pi pi-cog" pTooltip="Settings"></i></a>
 
     </div>
   </div>
@@ -44,13 +48,29 @@
 <app-sidepanel [panelTemplate]="sidepanelTemplate">
 
 </app-sidepanel>
-<div key="x" class="content" v-if="!focusPeerblock" *ngFor="let stream of mediaStreams">
+<div class="peer-stream-container">
+  <ng-container *ngIf="hasFocusedConnection === false; else focusedPeerBlock">
+    <ng-container *ngFor="let stream of mediaStreams">
+      <app-stream-peer-block 
+      [title]="stream.nickname"
+      [media]="stream.stream"
+      (dblclick)="toggleFocus(stream)"
+      >
+      </app-stream-peer-block>
+    </ng-container>
+  </ng-container>            
+<ng-template #focusedPeerBlock>
   <app-stream-peer-block
-             [title]="'title'"
-             [media]="stream"
+             [title]="focusedConnection.nickname"
+             [media]="focusedConnection.stream"
+             class="focused-peer-block"
+             (dblclick)="toggleFocus(focusedConnection)"
+             [focused]="true"
              >
-</app-stream-peer-block>
+             </app-stream-peer-block>
+</ng-template>
 </div>
 <app-stream-screen-picker (mediaStreamSelected)="onStreamSelected($event)" #streamScreenPicker></app-stream-screen-picker>
-
+<app-peer-connection-dialog *ngIf="showConnectionDialog" (accepted)="connection.acceptConnection($event); showConnectionDialog = false" (rejected)="connection.denyConnection($event); showConnectionDialog = false" [newConnection]="newConnection" [display]="true" #peerConnectionDialog></app-peer-connection-dialog>
+<app-settings-dialog #settingsDialog [configuration]="configuration"></app-settings-dialog>
 </div>
