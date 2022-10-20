@@ -28,5 +28,13 @@ module.exports = (config, options) => {
 		})
     ];
 
+    config.resolve = {
+        ...config.resolve,
+        alias: {
+          ...config.resolve.alias,
+          assets: require('path').resolve(__dirname, "src/assets")
+        }
+      };
+
     return config;
 }

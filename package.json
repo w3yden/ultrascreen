@@ -1,24 +1,24 @@
 {
-  "name": "angular-electron",
-  "version": "11.0.0",
-  "description": "Angular 14 with Electron 19 (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "name": "ultrascreen",
+  "version": "1.0.0",
+  "description": "Share your screen",
+  "homepage": "https://github.com/w3yden/ultrascreen",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "W3yden",
+    "email": "w3yden@protonmail.com"
   },
   "keywords": [
-    "angular",
+    "screenshare",
+    "peerjs",
+    "webrtc",
     "angular 14",
     "electron",
     "electron 19",
     "nodejs",
     "typescript",
-    "playwright",
     "eslint",
     "sass",
     "windows",
-    "mac",
     "linux"
   ],
   "main": "app/main.js",
@@ -36,12 +36,12 @@
     "electron:serve-tsc": "tsc -p tsconfig.serve.json",
     "electron:serve": "wait-on tcp:4200 && npm run electron:serve-tsc && electron . --serve",
     "electron:local": "npm run build:prod && electron .",
-    "electron:build": "npm run build:prod && electron-builder build --publish=never",
+    "electron:build:win": "npm run build:prod && electron-builder build --publish=never --win",
+    "electron:build:linux": "npm run build:prod && electron-builder build --publish=never",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
     "e2e": "npm run build:prod && playwright test -c e2e/playwright.config.ts e2e/",
     "e2e:show-trace": "playwright show-trace e2e/tracing/trace.zip",
-    "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
     "lint": "ng lint"
   },
   "dependencies": {
@@ -84,7 +84,6 @@
     "@typescript-eslint/eslint-plugin": "5.30.7",
     "@typescript-eslint/parser": "5.30.7",
     "autoprefixer": "10.4.8",
-    "conventional-changelog-cli": "2.2.2",
     "electron": "19.0.8",
     "electron-builder": "23.1.0",
     "electron-debug": "3.2.0",

@@ -1,6 +1,6 @@
 {
-  "name": "angular-electron",
-  "version": "11.0.0",
+  "name": "ultrascreen",
+  "version": "1.0.0",
   "main": "main.js",
   "private": true,
   "dependencies": {

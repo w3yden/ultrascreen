@@ -59,23 +59,6 @@ function createWindow(): BrowserWindow {
     return await desktopCapturer.getSources({ types: ['window', 'screen'] }).then((sources) => {return sources;});
   });
 
-  ipcMain.handle('get-stream', async (sourceId) => {
-    const stream = await (navigator.mediaDevices as any).getUserMedia({
-      audio: false,
-      video: {
-        mandatory: {
-          chromeMediaSource: 'desktop',
-          chromeMediaSourceId: sourceId,
-          minWidth: 1280,
-          maxWidth: 1280,
-          minHeight: 720,
-          maxHeight: 720
-        }
-      }
-    })
-    return stream;
-  });
-
   return win;
 }
 
