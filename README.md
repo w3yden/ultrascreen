@@ -13,7 +13,7 @@ The default stream resolution is currently always 1280x720.
 ## Download UltraScreen
 You can download desktop versions of UltraScreen for Windows and Linux (AppImage) at the [Release Page](https://github.com/w3yden/ultrascreen/releases).
 
-Now you can also use it directly in your webbrowser. (Link coming soon)
+Now you can also use it directly in your webbrowser at [w3yden.github.io/ultrascreen](https://w3yden.github.io/ultrascreen).
 ## Gallery
 
 ![alt text](https://github.com/w3yden/ultrascreen/blob/main/screenshots/Preview.png "")
