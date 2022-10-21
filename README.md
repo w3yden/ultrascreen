@@ -16,4 +16,4 @@ You can download desktop versions of UltraScreen for Windows and Linux (AppImage
 Now you can also use it directly in your webbrowser. (Link coming soon)
 ## Gallery
 
-![alt text](https://github.com/w3yden/ultrascreen/blob/master/screenshots/Preview.png "")
+![alt text](https://github.com/w3yden/ultrascreen/blob/main/screenshots/Preview.png "")
