@@ -1,0 +1,11 @@
+{
+  "PAGES": {
+      "HOME": {
+          "CONNECT": "Connect"
+      },
+      "CONNECTED": {
+        "DISCONNECT": "Disconnect",
+        "CREDITS": "Credits"
+    }
+  }
+}
