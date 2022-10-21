@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PeerJsService } from '../core/services/peer-js.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { APP_CONFIG } from '../../environments/environment';
 
 @Component({
   selector: 'app-pre-connect',
@@ -18,11 +19,12 @@ export class PreConnectComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('HomeComponent INIT');
-    // DEV
-    this.peerJsService.connect('devlogin', () => {
-      this.loading = false;
-      this.router.navigate(['connected']);
-    });
+    if(!APP_CONFIG.production) {
+      this.peerJsService.connect('devlogin', () => {
+        this.loading = false;
+        this.router.navigate(['connected']);
+      });
+    }
 
   }
 

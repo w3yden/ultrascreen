@@ -1,10 +1,10 @@
 <p-dialog [style]="{width: '50vw', 'min-width': '200px'}" header="Settings" [(visible)]="display">
-    <div>PeerJs Server: {{configuration.host}}:{{configuration.port}}</div>
+    <div>PeerJs Server: <span class="float-right">{{configuration.host}}:{{configuration.port}}</span></div>
     <div>IceServers: </div>
     <div *ngFor="let iceServer of configuration.iceServers">
-        {{iceServer}}
+        <span class="float-right">{{iceServer}}</span>
     </div>
     <ng-template pTemplate="footer">
-        Two icons from freepik.
+       <a href="https://github.com/w3yden/ultrascreen"><span class="pi pi-github"></span></a>       
     </ng-template>
 </p-dialog>
