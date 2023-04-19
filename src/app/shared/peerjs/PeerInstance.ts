@@ -39,7 +39,7 @@ export class PeerInstance {
           port: configuration.port,
           pingInterval: configuration.pingInterval,
           secure: configuration.secure,
-          config: iceConfig});
+          config: {iceServers: iceConfig}});
       this.peer.on('open', this.onPeerServerConnected.bind(this));
       this.peer.on('call', this.onPeerRemoteCallAttempt.bind(this));
       this.peer.on('error', this.onPeerError.bind(this));
